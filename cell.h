@@ -11,11 +11,11 @@ class cell{
     public:
         cell();
         bool isMissing(int value);
-        void popMissing(int value);
+        void removeMissing(int value);
         void pushMissing(int value);
         cellState getState();
         void setState(cellState state);
-        
+        void toString();
 };
 
 #endif
