@@ -1,4 +1,4 @@
-.vscode
-.out
-.h.gch
-.gch
+*.vscode
+*.out
+*.h.gch
+*.gch
