@@ -2,12 +2,10 @@
 #include "cell.h"
 #include <algorithm>
 
-/* std::list<int> missing;
-cellState state; */
-
-cell::cell(){
-    missing = {1,3,4,5,7};
+cell::cell(int value){
+    missing = {1,2,3,4,5,6,7,8,9};
     state = NOTFOUND;
+    this->value = value;
 };
 
 bool cell::isMissing(int val){
@@ -25,6 +23,10 @@ void cell::removeMissing(int val){
    if(it != missing.end()){
        missing.erase(it);
    }
+};
+
+void cell::clearMissing(){
+    missing.clear();
 };
 
 void cell::pushMissing(int val){
@@ -46,5 +48,12 @@ void cell::toString(){
     }
 
     std::cout << '\n';
-}
+};
 
+int cell::getValue(){
+    return value;
+};
+
+void cell::setValue(int val){
+    value = val;
+};
