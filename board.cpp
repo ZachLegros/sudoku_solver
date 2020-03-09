@@ -43,22 +43,29 @@ void board::toString(){
     using namespace std;
     string characters;
     int val;
-    cout << "   0 1 2 3 4 5 6 7 8\n"
-        "  +-----------------+\n";
+    cout << "   0 1 2 3 4 5 6 7 8\n" << "  +-----------------+\n";
     for (int i = 0; i < 9; i++) {
-        characters = "";
         cout << ' ' << i << '|';
-        for (int j=0; j<9; j++){
-            val = map.at((i*9)+j).getValue();
+        for(int j=0; j < 9; j++) {
+            val = getCell(j, i).getValue();
             if (val == 0){
-                characters += " ";
+                if (j==8) {
+                    cout << "□";
+                } else {
+                    cout << "□ ";
+                }
             } else {
-                characters += val + " ";
+                if (j==8) {
+                    cout << val;
+                } else {
+                    cout << val << " ";
+                }
             }
         }
-        cout << characters << "|\n";
+        cout << "|\n";
     }
     cout << "  +-----------------+\n";
+    cout << characters << "\n";
 };
 
 
