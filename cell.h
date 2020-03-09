@@ -10,7 +10,7 @@ class cell{
         int value;
     public:
         cell(int value);
-        bool isMissing(int value);
+        std::list<int> getMissing();
         void removeMissing(int value);
         void clearMissing();
         void pushMissing(int value);

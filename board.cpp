@@ -3,6 +3,7 @@
 #include <map>
 #include <array>
 #include <cmath>
+using namespace std;
 
 // assuming the initial board is valid
 board::board(std::array<int, 81> init){
@@ -25,22 +26,41 @@ int board::getIndex(int x, int y){
     return (y*9)+x;
 };
 
+// assuming cell not found
 bool board::checkRow(int row, int cellValue){
-    return true;
-
+    for (int i=0; i<9; i++) {
+        if (getCell(i, row).getValue() == cellValue) {
+            return true;
+        }
+    }
+    return false;
 };
 
+// assuming cell not found
 bool board::checkCol(int col, int cellValue){
-    return true;
-
+    for (int i=0; i<9; i++) {
+        if (getCell(col, i).getValue() == cellValue) {
+            return true;
+        }
+    }
+    return false;
 };
 
-bool board::checkSquare(int cellX, int cellY){
-    return true;
+// assuming cell not found
+bool board::checkSquare(int cellX, int cellY, int cellValue){
+    int flooredX = (floor(cellX/3)*3);
+    int flooredY = (floor(cellY/3)*3);
+    for (int x = flooredX; x<flooredX+3; x++) {
+        for (int y = flooredY; y<flooredY+3; y++) {
+            if (getCell(x, y).getValue() == cellValue) {
+                return true;
+            }
+        }
+    }
+    return false;
 };
 
 void board::toString(){
-    using namespace std;
     string characters;
     int val;
     cout << "   0 1 2 3 4 5 6 7 8\n" << "  +-----------------+\n";

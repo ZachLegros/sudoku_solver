@@ -12,7 +12,7 @@ class board{
         cell getCell(int x, int y);
         bool checkRow(int row, int cellValue);
         bool checkCol(int col, int cellValue);
-        bool checkSquare(int cellX, int cellY);
+        bool checkSquare(int cellX, int cellY, int cellValue);
         void toString();
         int getIndex(int x, int y);
 };

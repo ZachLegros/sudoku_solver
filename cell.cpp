@@ -8,14 +8,8 @@ cell::cell(int value){
     this->value = value;
 };
 
-bool cell::isMissing(int val){
-   std::list<int>::iterator it = std::find(missing.begin(), missing.end(), val);
-   if(it != missing.end()){
-       return true;
-   }
-   else {
-       return false;
-   }
+std::list<int> cell::getMissing(){
+    return missing;
 };
 
 void cell::removeMissing(int val){
