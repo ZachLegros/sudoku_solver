@@ -18,8 +18,8 @@ board::board(std::array<int, 81> init){
     }
 };
 
-cell board::getCell(int x, int y){
-    return map.at(getIndex(x, y));
+cell* board::getCell(int x, int y){
+    return &map.at(getIndex(x, y));
 };
 
 int board::getIndex(int x, int y){
@@ -29,7 +29,7 @@ int board::getIndex(int x, int y){
 // assuming cell not found
 bool board::checkRow(int row, int cellValue){
     for (int i=0; i<9; i++) {
-        if (getCell(i, row).getValue() == cellValue) {
+        if ((*getCell(i, row)).getValue() == cellValue) {
             return true;
         }
     }
@@ -39,7 +39,7 @@ bool board::checkRow(int row, int cellValue){
 // assuming cell not found
 bool board::checkCol(int col, int cellValue){
     for (int i=0; i<9; i++) {
-        if (getCell(col, i).getValue() == cellValue) {
+        if ((*getCell(col, i)).getValue() == cellValue) {
             return true;
         }
     }
@@ -52,7 +52,7 @@ bool board::checkSquare(int cellX, int cellY, int cellValue){
     int flooredY = (floor(cellY/3)*3);
     for (int x = flooredX; x<flooredX+3; x++) {
         for (int y = flooredY; y<flooredY+3; y++) {
-            if (getCell(x, y).getValue() == cellValue) {
+            if ((*getCell(x, y)).getValue() == cellValue) {
                 return true;
             }
         }
@@ -67,7 +67,7 @@ void board::toString(){
     for (int i = 0; i < 9; i++) {
         cout << ' ' << i << '|';
         for(int j=0; j < 9; j++) {
-            val = getCell(j, i).getValue();
+            val = (*getCell(j, i)).getValue();
             if (val == 0){
                 if (j==8) {
                     cout << "□";
@@ -86,6 +86,20 @@ void board::toString(){
     }
     cout << "  +-----------------+\n";
     cout << characters << "\n";
+};
+
+void board::eliminateMissing(int x, int y) {
+    cell *currentCell = getCell(x, y);
+    list<int> missing = (*currentCell).getMissing();
+    for (std::list<int>::iterator it=missing.begin(); it != missing.end(); ++it) {
+        if (checkRow(y, *it) == true) {
+            (*currentCell).removeMissing(*it);
+        } else if (checkCol(x, *it) == true) {
+            (*currentCell).removeMissing(*it);
+        } else if (checkSquare(x, y, *it)) {
+            (*currentCell).removeMissing(*it);
+        }
+    }
 };
 
 

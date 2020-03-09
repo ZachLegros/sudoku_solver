@@ -9,12 +9,13 @@ class board{
         std::map<int, cell> map;
     public:
         board(std::array<int, 81>);
-        cell getCell(int x, int y);
+        cell* getCell(int x, int y);
         bool checkRow(int row, int cellValue);
         bool checkCol(int col, int cellValue);
         bool checkSquare(int cellX, int cellY, int cellValue);
         void toString();
         int getIndex(int x, int y);
+        void eliminateMissing(int x, int y);
 };
 
 #endif
