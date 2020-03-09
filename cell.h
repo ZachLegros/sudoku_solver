@@ -13,12 +13,14 @@ class cell{
         std::list<int> getMissing();
         void removeMissing(int value);
         void clearMissing();
+        bool isMissing(int value);
         void pushMissing(int value);
         cellState getState();
         void setState(cellState state);
         void toString();
         int getValue();
         void setValue(int value);
+        bool test();
 };
 
 #endif

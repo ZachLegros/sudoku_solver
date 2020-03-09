@@ -1,4 +1,5 @@
 #include "board.h"
+#include "cellState.h"
 #include <iostream>
 #include <map>
 #include <array>
@@ -24,40 +25,6 @@ cell* board::getCell(int x, int y){
 
 int board::getIndex(int x, int y){
     return (y*9)+x;
-};
-
-// assuming cell not found
-bool board::checkRow(int row, int cellValue){
-    for (int i=0; i<9; i++) {
-        if ((*getCell(i, row)).getValue() == cellValue) {
-            return true;
-        }
-    }
-    return false;
-};
-
-// assuming cell not found
-bool board::checkCol(int col, int cellValue){
-    for (int i=0; i<9; i++) {
-        if ((*getCell(col, i)).getValue() == cellValue) {
-            return true;
-        }
-    }
-    return false;
-};
-
-// assuming cell not found
-bool board::checkSquare(int cellX, int cellY, int cellValue){
-    int flooredX = (floor(cellX/3)*3);
-    int flooredY = (floor(cellY/3)*3);
-    for (int x = flooredX; x<flooredX+3; x++) {
-        for (int y = flooredY; y<flooredY+3; y++) {
-            if ((*getCell(x, y)).getValue() == cellValue) {
-                return true;
-            }
-        }
-    }
-    return false;
 };
 
 void board::toString(){
@@ -88,7 +55,7 @@ void board::toString(){
     cout << characters << "\n";
 };
 
-void board::eliminateMissing(int x, int y) {
+/* void board::eliminateMissingCell(int x, int y) {
     cell *currentCell = getCell(x, y);
     list<int> missing = (*currentCell).getMissing();
     for (std::list<int>::iterator it=missing.begin(); it != missing.end(); ++it) {
@@ -98,6 +65,48 @@ void board::eliminateMissing(int x, int y) {
             (*currentCell).removeMissing(*it);
         } else if (checkSquare(x, y, *it)) {
             (*currentCell).removeMissing(*it);
+        }
+    }
+}; */
+
+void board::eliminateMissing() {
+    int value;
+    for (int y=0; y<9; y++) {
+        for (int x=0; x<9; x++) {
+            if ((*getCell(x, y)).getState() == cellState::FOUND) {
+                value = (*getCell(x, y)).getValue();
+                clearMissingRow(y, value);
+                clearMissingCol(x, value);
+                clearMissingSquare(x, y, value);
+            }
+        }
+    }
+}
+
+void board::clearMissingRow(int y, int value) {
+    for (int x=0; x<9; x++) {
+        if ((*getCell(x, y)).getState() != cellState::FOUND && (*getCell(x, y)).isMissing(value) == true) {
+            (*getCell(x, y)).removeMissing(value);
+        }
+    }
+}
+
+void board::clearMissingCol(int x, int value) {
+    for (int y=0; y<9; y++) {
+        if ((*getCell(x, y)).getState() != cellState::FOUND && (*getCell(x, y)).isMissing(value) == true) {
+            (*getCell(x, y)).removeMissing(value);
+        }
+    }
+}
+
+void board::clearMissingSquare(int cellX, int cellY, int cellValue){
+    int flooredX = (floor(cellX/3)*3);
+    int flooredY = (floor(cellY/3)*3);
+    for (int x = flooredX; x<flooredX+3; x++) {
+        for (int y = flooredY; y<flooredY+3; y++) {
+            if ((*getCell(x, y)).getState() != cellState::FOUND && (*getCell(x, y)).isMissing(cellValue) == true) {
+                (*getCell(x, y)).removeMissing(cellValue);
+            }
         }
     }
 };

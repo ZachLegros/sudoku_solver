@@ -10,12 +10,15 @@ class board{
     public:
         board(std::array<int, 81>);
         cell* getCell(int x, int y);
-        bool checkRow(int row, int cellValue);
-        bool checkCol(int col, int cellValue);
-        bool checkSquare(int cellX, int cellY, int cellValue);
+       // bool checkRow(int row, int cellValue);
+       // bool checkCol(int col, int cellValue);
+       // bool checkSquare(int cellX, int cellY, int cellValue);
         void toString();
         int getIndex(int x, int y);
-        void eliminateMissing(int x, int y);
+        void eliminateMissing();
+        void clearMissingSquare(int x, int y, int value);
+        void clearMissingRow(int y, int value);
+        void clearMissingCol(int x, int value);
 };
 
 #endif

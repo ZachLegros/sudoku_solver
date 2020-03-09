@@ -19,6 +19,14 @@ void cell::removeMissing(int val){
    }
 };
 
+bool cell::isMissing(int val) {
+    std::list<int>::iterator it = std::find(missing.begin(), missing.end(), val);
+    if(it != missing.end()){
+        return true;
+    }
+    return false;
+}
+
 void cell::clearMissing(){
     missing.clear();
 };
@@ -38,7 +46,7 @@ void cell::setState(cellState state){
 void cell::toString(){
     std::list<int>::iterator it;
     for(it = missing.begin(); it != missing.end(); it++){
-        std::cout << ' ' << *it;
+        std::cout << *it << " ";
     }
 
     std::cout << '\n';
@@ -51,3 +59,7 @@ int cell::getValue(){
 void cell::setValue(int val){
     value = val;
 };
+
+bool cell::test() {
+    return missing.size() == 0;
+}
