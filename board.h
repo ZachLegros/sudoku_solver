@@ -3,22 +3,25 @@
 #include "cell.h"
 #include <map>
 #include <array>
+#include <list>
 
 class board{
     private:
         std::map<int, cell> map;
+        std::list<int> missingIndex = {};
+        int found = 0;
+        bool solved = false;
     public:
         board(std::array<int, 81>);
+        board(std::map<int, cell> init, std::list<int> missingIndex, int found);
         cell* getCell(int x, int y);
-       // bool checkRow(int row, int cellValue);
-       // bool checkCol(int col, int cellValue);
-       // bool checkSquare(int cellX, int cellY, int cellValue);
         void toString();
         int getIndex(int x, int y);
-        void eliminateMissing();
+        void eliminateMissing(int found);
         void clearMissingSquare(int x, int y, int value);
         void clearMissingRow(int y, int value);
         void clearMissingCol(int x, int value);
+        void solve();
 };
 
 #endif

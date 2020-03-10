@@ -20,7 +20,7 @@ class cell{
         void toString();
         int getValue();
         void setValue(int value);
-        bool test();
+        int getMissingSize();
 };
 
 #endif

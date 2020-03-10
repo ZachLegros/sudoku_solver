@@ -60,6 +60,6 @@ void cell::setValue(int val){
     value = val;
 };
 
-bool cell::test() {
-    return missing.size() == 0;
+int cell::getMissingSize() {
+    return missing.size();
 }
