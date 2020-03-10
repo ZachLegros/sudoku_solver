@@ -15,15 +15,13 @@ board::board(std::array<int, 81> init){
             newCell.setState(FOUND);
             newCell.clearMissing();
             found += 1;
-        } else {
-            missingIndex.push_back(i);
         }
         map.insert(std::pair<int, cell>(i, newCell));
     }
     cout << "Board initialized with " << found << " values found.\n";
 };
 
-board::board(std::map<int, cell> init, std::list<int> missingIndex, int found) {
+board::board(std::map<int, cell> init, std::list<cell> missingIndex, int found) {
     map = init;
     this->missingIndex = missingIndex;
     this->found = found;
@@ -66,9 +64,9 @@ void board::toString(){
     cout << characters << "\n";
 };
 
-void board::eliminateMissing(int found) {
+void board::eliminateMissing() {
     int value;
-    int compareFound = found;
+    int compareFound = this->found;
     for (int y=0; y<9; y++) {
         for (int x=0; x<9; x++) {
             if ((*getCell(x, y)).getState() == cellState::FOUND) {
@@ -80,7 +78,7 @@ void board::eliminateMissing(int found) {
         }
     }
     if (compareFound != this->found && this->found < 81) {
-        eliminateMissing(this->found);
+        eliminateMissing();
     } else if (this->found == 81) {
         solved = true;
     }
@@ -94,7 +92,7 @@ void board::clearMissingRow(int y, int value) {
                 (*getCell(x, y)).setState(FOUND);
                 this->found += 1;
                 (*getCell(x, y)).setValue(value);
-                missingIndex.remove(getIndex(x, y));
+                missingIndex.remove((*getCell(x, y)));
             }
         }
     }
@@ -108,7 +106,7 @@ void board::clearMissingCol(int x, int value) {
                 (*getCell(x, y)).setState(FOUND);
                 this->found += 1;
                 (*getCell(x, y)).setValue(value);
-                missingIndex.remove(getIndex(x, y));
+                missingIndex.remove((*getCell(x, y)));
             }
         }
     }
@@ -125,17 +123,13 @@ void board::clearMissingSquare(int cellX, int cellY, int cellValue){
                     (*getCell(x, y)).setState(FOUND);
                     this->found += 1;
                     (*getCell(x, y)).setValue(cellValue);
-                    missingIndex.remove(getIndex(x, y));
+                    missingIndex.remove((*getCell(x, y)));
                 }
             }
         }
     }
 };
 
-void board::solve() {
-    eliminateMissing(found);
-    while (solved == false) {
-
-    }
+bool board::isSolved() {
+    return solved;
 }
-
