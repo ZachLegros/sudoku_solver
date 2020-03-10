@@ -10,7 +10,7 @@ using namespace std;
 // assuming the initial board is valid
 board::board(std::array<int, 81> init){
     for (int i=0; i<init.size(); i++){
-        cell newCell(init[i]);
+        cell newCell(init[i], i);
         if (init[i] != 0){
             newCell.setState(FOUND);
             newCell.clearMissing();
@@ -21,14 +21,17 @@ board::board(std::array<int, 81> init){
     cout << "Board initialized with " << found << " values found.\n";
 };
 
-board::board(std::map<int, cell> init, std::list<cell> missingIndex, int found) {
+board::board(std::map<int, cell> init, int found) {
     map = init;
-    this->missingIndex = missingIndex;
     this->found = found;
-}
+};
 
 cell* board::getCell(int x, int y){
     return &map.at(getIndex(x, y));
+};
+
+cell* board::getCell(int index) {
+    return &map.at(index);
 };
 
 int board::getIndex(int x, int y){
@@ -82,7 +85,7 @@ void board::eliminateMissing() {
     } else if (this->found == 81) {
         solved = true;
     }
-}
+};
 
 void board::clearMissingRow(int y, int value) {
     for (int x=0; x<9; x++) {
@@ -92,11 +95,10 @@ void board::clearMissingRow(int y, int value) {
                 (*getCell(x, y)).setState(FOUND);
                 this->found += 1;
                 (*getCell(x, y)).setValue(value);
-                missingIndex.remove((*getCell(x, y)));
             }
         }
     }
-}
+};
 
 void board::clearMissingCol(int x, int value) {
     for (int y=0; y<9; y++) {
@@ -106,11 +108,10 @@ void board::clearMissingCol(int x, int value) {
                 (*getCell(x, y)).setState(FOUND);
                 this->found += 1;
                 (*getCell(x, y)).setValue(value);
-                missingIndex.remove((*getCell(x, y)));
             }
         }
     }
-}
+};
 
 void board::clearMissingSquare(int cellX, int cellY, int cellValue){
     int flooredX = (floor(cellX/3)*3);
@@ -123,7 +124,6 @@ void board::clearMissingSquare(int cellX, int cellY, int cellValue){
                     (*getCell(x, y)).setState(FOUND);
                     this->found += 1;
                     (*getCell(x, y)).setValue(cellValue);
-                    missingIndex.remove((*getCell(x, y)));
                 }
             }
         }
@@ -132,4 +132,20 @@ void board::clearMissingSquare(int cellX, int cellY, int cellValue){
 
 bool board::isSolved() {
     return solved;
-}
+};
+
+int board::nextMove() {
+    int *prevIndex;
+    bool ptrInitialized = false;
+    for (int i=0; i<map.size(); i++) {
+        if (ptrInitialized == false && (*getCell(i)).getState() != cellState::FOUND) {
+            *prevIndex = i;
+            ptrInitialized = true;
+        } else if (ptrInitialized == true) {
+            if ((*getCell(i)).getMissingSize() < (*getCell(*prevIndex)).getMissingSize() && (*getCell(i)).getState() != cellState::FOUND) {
+                *prevIndex = (*getCell(i)).getIndex();
+            }
+        }       
+    }
+    return *prevIndex;
+};

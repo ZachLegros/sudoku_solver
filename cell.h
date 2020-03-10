@@ -8,8 +8,9 @@ class cell{
         std::list<int> missing;
         cellState state;
         int value;
+        int index;
     public:
-        cell(int value);
+        cell(int value, int index);
         std::list<int> getMissing();
         void removeMissing(int value);
         void clearMissing();
@@ -21,6 +22,7 @@ class cell{
         int getValue();
         void setValue(int value);
         int getMissingSize();
+        int getIndex();
 };
 
 #endif

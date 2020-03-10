@@ -8,14 +8,14 @@
 class board{
     private:
         std::map<int, cell> map;
-        std::list<cell> missingIndex = {};
         int found = 0;
         bool solved = false;
 
     public:
         board(std::array<int, 81>);
-        board(std::map<int, cell> init, std::list<cell> missingIndex, int found);
+        board(std::map<int, cell> init, int found);
         cell* getCell(int x, int y);
+        cell* getCell(int index);
         void toString();
         int getIndex(int x, int y);
         void eliminateMissing();
@@ -23,6 +23,7 @@ class board{
         void clearMissingRow(int y, int value);
         void clearMissingCol(int x, int value);
         bool isSolved();
+        int nextMove();
 };
 
 #endif

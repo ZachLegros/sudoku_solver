@@ -2,10 +2,11 @@
 #include "cell.h"
 #include <algorithm>
 
-cell::cell(int value){
+cell::cell(int value, int index){
     missing = {1,2,3,4,5,6,7,8,9};
     state = NOTFOUND;
     this->value = value;
+    this->index = index;
 };
 
 std::list<int> cell::getMissing(){
@@ -62,4 +63,8 @@ void cell::setValue(int val){
 
 int cell::getMissingSize() {
     return missing.size();
+}
+
+int cell::getIndex() {
+    return index;
 }
