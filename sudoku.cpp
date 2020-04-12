@@ -1,5 +1,6 @@
 #include "sudoku.h"
 #include <cmath>
+#include <iostream>
 
 Sudoku::Sudoku(int** init) {
     grid = init;
@@ -37,9 +38,9 @@ void Sudoku::solve() {
             if (this->grid[y][x] == 0) {
                 for (int n=1; n<10; n++) {
                     if (isPossible(x, y, n)) {
-                        grid[y][x] = n;
+                        this->grid[y][x] = n;
                         solve();
-                        grid[y][x] = 0;
+                        this->grid[y][x] = 0;
                     }
                 }
                 return;
@@ -50,31 +51,30 @@ void Sudoku::solve() {
 }
 
 void Sudoku::toString() {
-/*     string characters;
+    std::string characters;
     int val;
-    cout << "Found " << found << " values.\n"; 
-    cout << "   0 1 2 3 4 5 6 7 8\n" << "  +-----------------+\n";
+    std::cout << "   0 1 2 3 4 5 6 7 8\n" << "  +-----------------+\n";
     for (int i = 0; i < 9; i++) {
-        cout << ' ' << i << '|';
+        std::cout << ' ' << i << '|';
         for(int j=0; j < 9; j++) {
-            val = (*getCell(j, i)).getValue();
+            val = this->grid[i][j];
             if (val == 0){
                 if (j==8) {
-                    cout << "□";
+                    std::cout << "□";
                 } else {
-                    cout << "□ ";
+                    std::cout << "□ ";
                 }
             } else {
                 if (j==8) {
-                    cout << val;
+                    std::cout << val;
                 } else {
-                    cout << val << " ";
+                    std::cout << val << " ";
                 }
             }
         }
-        cout << "|\n";
+        std::cout << "|\n";
     }
-    cout << "  +-----------------+\n";
-    cout << characters << "\n"; */
+    std::cout << "  +-----------------+\n";
+    std::cout << characters << "\n";
 }
 
